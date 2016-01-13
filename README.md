@@ -1,6 +1,6 @@
 # Docker DCOS and Spark CLI Image
 
-This creates a Docker image that installs Spark 1.5.2 and the DCOS CLI from source and sets up the environment to allow use of the DCOS CLI against an Apache Mesos cluster.
+This creates a Docker image that installs the DCOS CLI and Spark 1.5.2.
 
 You'll want to set up an alias because you need to set a few environment variables:
 
@@ -9,5 +9,3 @@ You'll want to set up an alias because you need to set a few environment variabl
     root@0abbf5a04222:~# dcos node
               HOSTNAME                IP                         ID
     ... DCOS output ...
-
-
