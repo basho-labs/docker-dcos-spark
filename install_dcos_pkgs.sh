@@ -14,4 +14,4 @@ dcos package update
 # Install base utilties to get cli commands
 dcos package install --cli --yes riak
 dcos package install --cli --yes kafka
-dcos package install --cli --yes --package-version="1.5.0-multi-roles-v2" --log-level=ERROR spark
+dcos --log-level=ERROR package install --cli --yes --package-version="1.5.0-multi-roles-v2" spark
