@@ -19,10 +19,18 @@ RUN apt-get install -y python-dev libffi-dev libssl-dev python-virtualenv python
 WORKDIR /opt
 RUN git clone https://github.com/mesosphere/dcos-cli.git && cd dcos-cli && make env && make packages && cd cli && make env
 ADD install_dcos_pkgs.sh /
+# Install files needed for DCOS Spark subcommand
+RUN mkdir -p /root/.dcos/subcommand/spark
+ADD package.json /root/.dcos/subcommand/spark
+ADD source /root/.dcos/subcommand/spark
+ADD version /root/.dcos/subcommand/spark
 RUN /install_dcos_pkgs.sh
 
 # Install Spark
-ADD spark-1.5.2-bin-hadoop2.6.tgz /opt
+RUN curl -O http://d3kbcqa49mib13.cloudfront.net/spark-1.5.2-bin-hadoop2.6.tgz
+RUN tar -zxvf spark-1.5.2-bin-hadoop2.6.tgz -C /opt
+# (uncomment if using an already-downloaded tarball and comment out the above two lines)
+#ADD spark-1.5.2-bin-hadoop2.6.tgz /opt
 ENV SPARK_HOME /opt/spark-1.5.2-bin-hadoop2.6
 ENV PATH $SPARK_HOME/bin:$PATH
 
