@@ -35,5 +35,6 @@ ENV SPARK_HOME /opt/spark-1.5.2-bin-hadoop2.6
 ENV PATH $SPARK_HOME/bin:$PATH
 
 COPY bashrc /root/.bashrc
+COPY dcos.sh /root/dcos.sh
 WORKDIR /root
-ENTRYPOINT /bin/bash -i -l
+CMD /bin/bash -i -l
