@@ -14,6 +14,6 @@ fi
 
 source /opt/dcos-cli/cli/bin/env-setup-dev
 
-dcos config set marathon.url $MARATHON_URL > /dev/null 2&>1
-dcos config set core.mesos_master_url $MESOS_URL > /dev/null 2&>1
-dcos config set core.dcos_url $DCOS_URL > /dev/null 2&>1
+dcos config set marathon.url $MARATHON_URL > /dev/null 2>&1
+dcos config set core.mesos_master_url $MESOS_URL > /dev/null 2>&1
+dcos config set core.dcos_url $DCOS_URL > /dev/null 2>&1
