@@ -9,7 +9,12 @@ if [[ -z "$MESOS_URL" ]]; then
   export MESOS_URL="http://leader.mesos:5050"
 fi
 if [[ -z "$DCOS_URL" ]]; then
-  export DCOS_URL="http://leader.mesos"
+  # First, try to discover the URL, using the deployed shim
+  export DCOS_URL="http://$(curl -s $MARATHON_URL/v2/apps/dcos-proxy-shim/tasks | jq '.tasks[] | "\(.host) \(.ports[0])"' | tr ' ' ':' | tr -d '"')"
+
+  if [ "http:" = "$DCOS_URL" ]; then
+     export DCOS_URL="http://leader.mesos"
+  fi
 fi
 
 source /opt/dcos-cli/cli/bin/env-setup-dev
