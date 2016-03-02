@@ -15,15 +15,10 @@ RUN apt-get dist-upgrade -y
 RUN apt-get install -y git curl wget jq
 
 # Install DCOS
-RUN apt-get install -y python-dev libffi-dev libssl-dev python-virtualenv python-pip python-openssl
+RUN apt-get install -y python-dev libffi-dev libssl-dev python-virtualenv python-pip python-openssl tmux
 WORKDIR /opt
-RUN git clone https://github.com/mesosphere/dcos-cli.git && cd dcos-cli && make env && make packages && cd cli && make env
+RUN git clone https://github.com/mesosphere/dcos-cli.git && cd dcos-cli && git checkout 0.3.5 -b 0.3.5 && make env && make packages && cd cli && make env
 ADD install_dcos_pkgs.sh /
-# Install files needed for DCOS Spark subcommand
-RUN mkdir -p /root/.dcos/subcommands/spark
-ADD package.json /root/.dcos/subcommands/spark/
-ADD source /root/.dcos/subcommands/spark/
-ADD version /root/.dcos/subcommands/spark/
 RUN /install_dcos_pkgs.sh
 
 # Install Spark
@@ -33,6 +28,11 @@ RUN tar -zxvf spark-1.5.2-bin-hadoop2.6.tgz -C /opt
 #ADD spark-1.5.2-bin-hadoop2.6.tgz /opt
 ENV SPARK_HOME /opt/spark-1.5.2-bin-hadoop2.6
 ENV PATH $SPARK_HOME/bin:$PATH
+
+# Install Kafka
+RUN curl -O https://d1vubr0evspla.cloudfront.net/kafka_2.10-0.8.2.1.tgz
+RUN tar -zxvf kafka_2.10-0.8.2.1.tgz
+ENV PATH /opt/kafka_2.10-0.8.2.1/bin:$PATH
 
 COPY bashrc /root/.bashrc
 COPY dcos.sh /root/dcos.sh
